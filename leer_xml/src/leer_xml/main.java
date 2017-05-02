@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
+import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,48 +29,17 @@ public class main {
 			
 			//Se utilizara un archivo que se subira a un ftp.
 			documento = utilitario.GenerarXml("http://proyectg.com/archivos/personas.xml");
+		
 			
-			//Se crea un tipo lista de nodo que sacara la informacion de todos los tags persona.
-			NodeList nodeLista = documento.getElementsByTagName("persona");
+			//Se envia el tag y el elemento a sacar.
+			//El integer es para usar el numero del elemento el cual se puede asociar con los demas
+			HashMap<Integer,String> persona_nombre = utilitario.leerNodo(documento, "persona", "nombre");
+			HashMap<Integer,String> persona_edad = utilitario.leerNodo(documento, "persona", "edad");
+			HashMap<Integer,String> persona_correo = utilitario.leerNodo(documento, "persona", "correo");
 			
-			//Se recorre segun la cantidad de nodos de personas que tenga en este caso 4.
-			for (int s = 0; s < nodeLista.getLength(); s++) {
-				
-				//Se asocia el nodo que recorre al elemento NODO (tipo Node)
-				Node NODO = nodeLista.item(s);
-				String nombre;
-				String edad;
-				String correo;
-
-				//Pregunto si el NODO es del tipo ELEMENT_NODE para continuar
-				if (NODO.getNodeType() == Node.ELEMENT_NODE) {
-
-				//Asocio el NODO a un ELEMENT para poder trabajar los nombres
-				Element elemento_nodo = (Element) NODO;
-
-				NodeList primerNombreElementoLista = elemento_nodo.getElementsByTagName("nombre");
-				Element primerNombreElemento = (Element) primerNombreElementoLista.item(0);
-				NodeList nombre_nodo = primerNombreElemento.getChildNodes();
-				
-				nombre = ((Node) nombre_nodo.item(0)).getNodeValue().toString();
-				
-				NodeList segundoNombreElementoLista = elemento_nodo.getElementsByTagName("edad");
-				Element segundoNombreElemento =(Element) segundoNombreElementoLista.item(0);
-				NodeList segundoNombre = segundoNombreElemento.getChildNodes();
-
-				edad = ((Node) segundoNombre.item(0)).getNodeValue().toString();
-
-				NodeList tercerNombreElementoLista = elemento_nodo.getElementsByTagName("correo");
-				Element tercerNombreElemento =(Element) tercerNombreElementoLista.item(0);
-				NodeList tercerNombre = tercerNombreElemento.getChildNodes();
-				
-				correo = ((Node) tercerNombre.item(0)).getNodeValue().toString();
-				
-				System.out.println(nombre + " " + edad + " " + correo);
-
-				}
-			      }
-			  }
+			
+			System.out.println(persona_nombre.toString() + "\n" + persona_edad.toString() + "\n" + persona_correo);
+			}
 			  catch (Exception e) {
 			    	e.printStackTrace();
 			  }
