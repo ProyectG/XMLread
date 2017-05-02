@@ -26,7 +26,6 @@ public class xmlUtils {
 	 */
 	public Document GenerarXml(String url)
 	{
-		String xml="";
 		Document documento = null;
 		try
 		{
