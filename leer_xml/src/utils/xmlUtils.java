@@ -62,6 +62,15 @@ public class xmlUtils {
 	
 	
 	
+	/**
+	 * Saca el dato del nodo seleccionado.
+	 * 
+	 * @author proyectg 
+	 * @param nodo Es el documento ya trabajado desde GenerarXml
+	 * @param tag es el padre del tag a recorrer.
+	 * @param dato es el tag donde se sacara la informacion.
+	 * 
+	 */
 	public HashMap<Integer,String> leerNodo(Document nodo,String tag, String dato)
 	{
 		
@@ -71,18 +80,26 @@ public class xmlUtils {
 		try{
 		
 		NodeList nodos = nodo.getElementsByTagName(tag);
+		//Se ejecuta por la cantidad de elementos que contenga el tag.
 		for (int x = 0; x < nodos.getLength(); x++) {
+			
+			//
 			Node informacion = nodos.item(x);
 			
+			//Pregunta por el nodo, si del tipo NODE
 			if (informacion.getNodeType() == Node.ELEMENT_NODE) {
 				
+					//Si pasa la validacion lo castea a un Element y lo ingresa a elemento_informacion
 					Element elemento_informacion = (Element) informacion;
-	
+					//Como element obtiene el dato por el tag enviado y lo asocia a un NodeList
 					NodeList dataNodo = elemento_informacion.getElementsByTagName(dato);
+					//como nodelist obtengo el primer elemento encontrado
 					Element primerNombreElemento = (Element) dataNodo.item(0);
+					//se vuelve a pasar de element a Node list
 					NodeList data_nodo = primerNombreElemento.getChildNodes();
-					
+					//se saca el dato del nodo.
 					resultado = ((Node) data_nodo.item(0)).getNodeValue().toString();
+					//Se inserta en el hashmap de salida.
 					salida.put(x, resultado);
 				}
 			}
@@ -91,7 +108,6 @@ public class xmlUtils {
 		{
 			error.printStackTrace();
 		}
-	   //proximamente funcion de lectura generalizada de nodos.
 		
 		return salida;
 	}
